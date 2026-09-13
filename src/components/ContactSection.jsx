@@ -158,7 +158,7 @@ export default function ContactSection({ prefilledData }) {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="e.g. +91 98765 43210"
+                    placeholder="e.g. +91 98482 82496"
                     style={{
                       width: '100%',
                       padding: '12px 16px',
@@ -182,7 +182,7 @@ export default function ContactSection({ prefilledData }) {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="e.g. rajesh@company.com"
+                    placeholder="e.g. dannanakurmarao143@gmail.com"
                     style={{
                       width: '100%',
                       padding: '12px 16px',

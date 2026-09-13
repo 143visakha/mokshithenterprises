@@ -108,15 +108,15 @@ export default function Footer() {
 
                   <div className="footer-contact-item">
                     <Phone size={16} className="footer-contact-icon" />
-                    <a href="tel:+919876543210" className="footer-nav-link">
-                      +91 98765 43210
+                    <a href="tel:+919848282496" className="footer-nav-link">
+                      +91 98482 82496
                     </a>
                   </div>
 
                   <div className="footer-contact-item">
                     <Mail size={16} className="footer-contact-icon" />
-                    <a href="mailto:info@mokshithenterprises.com" className="footer-nav-link">
-                      info@mokshithenterprises.com
+                    <a href="mailto:dannanakurmarao143@gmail.com" className="footer-nav-link">
+                      dannanakurmarao143@gmail.com
                     </a>
                   </div>
                 </div>
