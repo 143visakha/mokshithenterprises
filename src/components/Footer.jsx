@@ -102,7 +102,7 @@ export default function Footer() {
                   <div className="footer-contact-item">
                     <MapPin size={16} className="footer-contact-icon" />
                     <span className="footer-contact-text">
-                      Mokshith Enterprises Corporate Hub, Hyderabad, Telangana, India
+                      Sainath Colony Beside Coffee Club Ice Factory Junction, Ring Road, Vizianagaram
                     </span>
                   </div>
 

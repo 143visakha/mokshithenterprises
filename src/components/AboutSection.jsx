@@ -186,10 +186,10 @@ export default function AboutSection({ onOpenLightbox }) {
               </div>
               <div>
                 <div style={{ fontSize: '1.5rem', fontWeight: '800', lineHeight: '1.1', color: '#FFFFFF' }}>
-                  13+ Years
+                  10+ Years
                 </div>
                 <div style={{ fontSize: '0.8rem', color: '#A7F3D0', marginTop: '2px', fontWeight: '500' }}>
-                  60 kW+ Capacity Installed
+                  2000+ kWs Capacity Installed
                 </div>
               </div>
             </div>

@@ -70,7 +70,7 @@ export default function TestimonialsSection() {
               ))}
             </div>
             <span style={{ fontSize: '0.88rem', fontWeight: '700', color: '#062217' }}>
-              4.9 out of 5 Rating (800+ Verified Installations)
+              4.9 out of 5 Rating (5800+ Happy Customers)
             </span>
           </div>
         </div>

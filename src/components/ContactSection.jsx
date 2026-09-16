@@ -46,7 +46,7 @@ export default function ContactSection({ prefilledData }) {
       <div className="container" style={{ position: 'relative', zIndex: 10 }}>
         
         {/* Section Centered Heading matching Screenshot */}
-        <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 60px auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 48px auto' }}>
           <span className="eyebrow eyebrow-dark" style={{ color: '#59C749' }}>GET A FREE CONSULTATION</span>
           <h2 className="heading-lg" style={{ color: '#FFFDF1', marginTop: '8px', marginBottom: '16px', fontSize: 'clamp(2.2rem, 4vw, 3.2rem)' }}>
             Ready to Switch to <span style={{ color: '#59C749', fontStyle: 'italic' }}>Solar Power?</span>
@@ -54,6 +54,32 @@ export default function ContactSection({ prefilledData }) {
           <p style={{ color: 'rgba(255, 253, 241, 0.9)', fontSize: '1.05rem', lineHeight: '1.6' }}>
             Book a free structural rooftop audit, shadow analysis, and government subsidy consultation with our engineering team today!
           </p>
+
+          {/* Official Office Address & Contact Quick Strip */}
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '16px',
+              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(89, 199, 73, 0.3)',
+              borderRadius: '14px',
+              padding: '12px 20px',
+              marginTop: '20px',
+              backdropFilter: 'blur(10px)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: '#FFFDF1', textAlign: 'left' }}>
+              <MapPin size={16} style={{ color: '#59C749', flexShrink: 0 }} />
+              <span>Sainath Colony Beside Coffee Club Ice Factory Junction, Ring Road, Vizianagaram</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: '#59C749', fontWeight: '700' }}>
+              <Phone size={15} style={{ flexShrink: 0 }} />
+              <a href="tel:+919848282496" style={{ color: '#59C749', textDecoration: 'none' }}>+91 98482 82496</a>
+            </div>
+          </div>
         </div>
 
         {/* Form Container Wrapper */}
@@ -206,7 +232,7 @@ export default function ContactSection({ prefilledData }) {
                     required
                     value={formData.location}
                     onChange={handleChange}
-                    placeholder="e.g. Hyderabad / Visakhapatnam"
+                    placeholder="e.g. Vizianagaram / Visakhapatnam"
                     style={{
                       width: '100%',
                       padding: '12px 16px',
