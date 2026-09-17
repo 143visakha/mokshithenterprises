@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-import { Send, CheckCircle2, Phone, Mail, MapPin, Sun, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Send, CheckCircle2, Phone, Mail, MapPin, ShieldCheck, AlertCircle, MessageSquare } from 'lucide-react';
 import BrandLogo from './BrandLogo';
+
+const RECIPIENT_EMAIL = 'dannanakurmarao143@gmail.com';
+const PHONE_NUMBER = '+919848282496';
+const PHONE_DISPLAY = '+91 98482 82496';
 
 export default function ContactSection({ prefilledData }) {
   const [formData, setFormData] = useState({
@@ -15,21 +19,93 @@ export default function ContactSection({ prefilledData }) {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Synchronize prefilledData from calculator or subsidy modal
+  useEffect(() => {
+    if (prefilledData) {
+      setFormData(prev => ({
+        ...prev,
+        propertyType: prefilledData.propertyType || prev.propertyType,
+        monthlyBill: prefilledData.monthlyBill || prev.monthlyBill,
+        message: prefilledData.message || prev.message,
+      }));
+    }
+  }, [prefilledData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage('');
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${RECIPIENT_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          _subject: `☀️ New Solar Enquiry from ${formData.fullName} (${formData.location}) - Mokshith Enterprises`,
+          _template: 'table',
+          _captcha: 'false',
+          'Customer Full Name': formData.fullName,
+          'Phone Number': formData.phone,
+          'Email Address': formData.email,
+          'Installation City / Location': formData.location,
+          'Property Type': formData.propertyType,
+          'Monthly Electricity Bill': formData.monthlyBill,
+          'Project Requirements / Details': formData.message || 'Standard rooftop solar site audit requested.',
+          'Submitted At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok || data.success === 'true' || data.success === true) {
+        setSubmitted(true);
+      } else {
+        throw new Error(data.message || 'Form submission failed');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      // If network fails, provide helpful notification & mailto fallback
+      setErrorMessage(
+        'Unable to send automatically due to network restrictions. Please click below to send via your email app or contact us directly on WhatsApp/Phone.'
+      );
+    } finally {
       setLoading(false);
-      setSubmitted(true);
-    }, 800);
+    }
   };
+
+  const handleReset = () => {
+    setFormData({
+      fullName: '',
+      phone: '',
+      email: '',
+      location: '',
+      propertyType: 'Residential',
+      monthlyBill: '₹10,000 - ₹25,000',
+      message: '',
+    });
+    setSubmitted(false);
+    setErrorMessage('');
+  };
+
+  const mailtoUrl = `mailto:${RECIPIENT_EMAIL}?subject=${encodeURIComponent(
+    `Solar Project Enquiry - ${formData.fullName || 'Customer'}`
+  )}&body=${encodeURIComponent(
+    `Name: ${formData.fullName}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nLocation: ${formData.location}\nProperty Type: ${formData.propertyType}\nMonthly Bill: ${formData.monthlyBill}\nMessage: ${formData.message}`
+  )}`;
+
+  const whatsappUrl = `https://wa.me/919848282496?text=${encodeURIComponent(
+    `Hello Mokshith Enterprises, I would like to enquire about solar installation.\nName: ${formData.fullName || ''}\nLocation: ${formData.location || ''}\nPhone: ${formData.phone || ''}`
+  )}`;
 
   return (
     <section
@@ -45,7 +121,7 @@ export default function ContactSection({ prefilledData }) {
     >
       <div className="container" style={{ position: 'relative', zIndex: 10 }}>
         
-        {/* Section Centered Heading matching Screenshot */}
+        {/* Section Centered Heading */}
         <div style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 48px auto' }}>
           <span className="eyebrow eyebrow-dark" style={{ color: '#59C749' }}>GET A FREE CONSULTATION</span>
           <h2 className="heading-lg" style={{ color: '#FFFDF1', marginTop: '8px', marginBottom: '16px', fontSize: 'clamp(2.2rem, 4vw, 3.2rem)' }}>
@@ -77,7 +153,11 @@ export default function ContactSection({ prefilledData }) {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: '#59C749', fontWeight: '700' }}>
               <Phone size={15} style={{ flexShrink: 0 }} />
-              <a href="tel:+919848282496" style={{ color: '#59C749', textDecoration: 'none' }}>+91 98482 82496</a>
+              <a href={`tel:${PHONE_NUMBER}`} style={{ color: '#59C749', textDecoration: 'none' }}>{PHONE_DISPLAY}</a>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: '#59C749', fontWeight: '600' }}>
+              <Mail size={15} style={{ flexShrink: 0 }} />
+              <a href={`mailto:${RECIPIENT_EMAIL}`} style={{ color: '#59C749', textDecoration: 'none' }}>{RECIPIENT_EMAIL}</a>
             </div>
           </div>
         </div>
@@ -95,35 +175,93 @@ export default function ContactSection({ prefilledData }) {
           }}
         >
           {submitted ? (
-            <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+            <div style={{ textAlign: 'center', padding: '32px 16px' }}>
               <div
                 style={{
-                  width: '64px',
-                  height: '64px',
+                  width: '68px',
+                  height: '68px',
                   borderRadius: '50%',
                   backgroundColor: 'rgba(89, 199, 73, 0.15)',
                   color: '#59C749',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  margin: '0 auto 24px auto',
+                  margin: '0 auto 20px auto',
                 }}
               >
-                <CheckCircle2 size={36} />
+                <CheckCircle2 size={40} />
               </div>
-              <h3 className="heading-md" style={{ color: '#102E0D', marginBottom: '12px' }}>
-                Consultation Request Received!
+              <h3 className="heading-md" style={{ color: '#102E0D', marginBottom: '10px', fontSize: '1.6rem' }}>
+                Consultation Request Dispatched!
               </h3>
-              <p className="body-text" style={{ maxWidth: '540px', margin: '0 auto 24px auto' }}>
-                Thank you for contacting Mokshith Enterprises. Our solar engineering specialist will review your property specifications and call you within 24 hours.
+              <p className="body-text" style={{ maxWidth: '580px', margin: '0 auto 16px auto', color: '#475569', lineHeight: '1.6' }}>
+                Thank you for reaching out to <strong>Mokshith Enterprises</strong>. Your enquiry details have been forwarded directly to our engineering desk at <strong style={{ color: '#0F172A' }}>{RECIPIENT_EMAIL}</strong>.
               </p>
-              <button
-                onClick={() => setSubmitted(false)}
-                className="btn btn-secondary"
-                style={{ fontSize: '0.85rem' }}
+              <div
+                style={{
+                  maxWidth: '520px',
+                  margin: '0 auto 24px auto',
+                  padding: '14px 18px',
+                  borderRadius: '10px',
+                  backgroundColor: '#F8FAFC',
+                  border: '1px solid #E2E8F0',
+                  fontSize: '0.88rem',
+                  color: '#64748B',
+                }}
               >
-                Submit Another Request
-              </button>
+                ⚡ Our solar engineering specialist will review your property specifications and call you within <strong>24 hours</strong>.
+              </div>
+
+              {/* Quick Actions */}
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '20px' }}>
+                <a
+                  href={`tel:${PHONE_NUMBER}`}
+                  className="btn"
+                  style={{
+                    backgroundColor: '#102E0D',
+                    color: '#FFFDF1',
+                    fontSize: '0.88rem',
+                    padding: '10px 18px',
+                    borderRadius: '8px',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <Phone size={15} />
+                  <span>Call {PHONE_DISPLAY}</span>
+                </a>
+
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn"
+                  style={{
+                    backgroundColor: '#25D366',
+                    color: '#FFFFFF',
+                    fontSize: '0.88rem',
+                    padding: '10px 18px',
+                    borderRadius: '8px',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <MessageSquare size={15} />
+                  <span>Chat on WhatsApp</span>
+                </a>
+
+                <button
+                  onClick={handleReset}
+                  className="btn btn-secondary"
+                  style={{ fontSize: '0.88rem', padding: '10px 18px' }}
+                >
+                  Submit Another Enquiry
+                </button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
@@ -134,11 +272,57 @@ export default function ContactSection({ prefilledData }) {
                     Solar Project Quotation Form
                   </h3>
                   <p className="body-text" style={{ fontSize: '0.85rem', color: '#64748B' }}>
-                    Fill in your details below to receive a custom 3D solar layout design & financial proposal.
+                    Enquiry submissions are routed directly to <strong style={{ color: '#0F172A' }}>{RECIPIENT_EMAIL}</strong>.
                   </p>
                 </div>
                 <BrandLogo mode="light" height={32} />
               </div>
+
+              {errorMessage && (
+                <div
+                  style={{
+                    padding: '14px 18px',
+                    backgroundColor: '#FEF2F2',
+                    border: '1px solid #FCA5A5',
+                    borderRadius: '8px',
+                    marginBottom: '20px',
+                    color: '#991B1B',
+                    fontSize: '0.9rem',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px',
+                  }}
+                >
+                  <AlertCircle size={18} style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <div>{errorMessage}</div>
+                    <div style={{ marginTop: '8px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                      <a
+                        href={mailtoUrl}
+                        style={{
+                          color: '#B91C1C',
+                          fontWeight: '700',
+                          textDecoration: 'underline',
+                          fontSize: '0.85rem',
+                        }}
+                      >
+                        📧 Open Email Client Directly
+                      </a>
+                      <a
+                        href={`tel:${PHONE_NUMBER}`}
+                        style={{
+                          color: '#15803D',
+                          fontWeight: '700',
+                          textDecoration: 'underline',
+                          fontSize: '0.85rem',
+                        }}
+                      >
+                        📞 Call {PHONE_DISPLAY}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Form Input Fields Grid */}
               <div
@@ -208,7 +392,7 @@ export default function ContactSection({ prefilledData }) {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="e.g. dannanakurmarao143@gmail.com"
+                    placeholder="e.g. customer@example.com"
                     style={{
                       width: '100%',
                       padding: '12px 16px',
@@ -337,16 +521,18 @@ export default function ContactSection({ prefilledData }) {
                   backgroundColor: '#59C749',
                   color: '#FFFDF1',
                   border: 'none',
-                  cursor: 'pointer',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.75 : 1,
                   boxShadow: '0 8px 20px rgba(89, 199, 73, 0.35)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
+                  transition: 'background-color 0.2s, transform 0.15s',
                 }}
               >
                 {loading ? (
-                  <span>Processing Request...</span>
+                  <span>Sending Consultation Enquiry...</span>
                 ) : (
                   <>
                     <span>Request Free Solar Consultation</span>
@@ -357,7 +543,7 @@ export default function ContactSection({ prefilledData }) {
 
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '16px', fontSize: '0.78rem', color: '#64748B' }}>
                 <ShieldCheck size={16} style={{ color: '#59C749' }} />
-                <span>Your information is strictly confidential. Zero spam guarantee.</span>
+                <span>Your information is strictly confidential. Directly routed to Mokshith Enterprises.</span>
               </div>
             </form>
           )}
@@ -367,4 +553,5 @@ export default function ContactSection({ prefilledData }) {
     </section>
   );
 }
+
 
