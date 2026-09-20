@@ -8,15 +8,24 @@ export default function ProjectsSection({ onOpenQuoteWithProject, onOpenLightbox
   const projects = [
     {
       id: 'p1',
-      category: 'COMMERCIAL',
-      title: 'Turnkey Commercial Rooftop System',
-      type: 'Commercial Solar',
-      capacity: '50 kW Commercial Array',
-      location: 'Hyderabad, Telangana, India',
-      image: '/w.jpeg',
+      category: 'COMMERCIAL & ROOFTOP',
+      title: 'Elevated High-Yield Rooftop Array & Execution Team',
+      type: 'Commercial & Institutional Solar',
+      capacity: '60 kW Elevated Rooftop Installation',
+      location: 'Telangana, India',
+      image: '/team_installation.jpg',
     },
     {
       id: 'p2',
+      category: 'COMMERCIAL',
+      title: '60 kW Landmark Commercial Solar Plant',
+      type: 'Commercial Rooftop Solar',
+      capacity: '60 kW Commercial Grid-Tied Array',
+      location: 'Telangana, India',
+      image: '/w.jpeg',
+    },
+    {
+      id: 'p3',
       category: 'INDUSTRIAL',
       title: 'High-Capacity Industrial Rooftop Grid',
       type: 'Industrial Solar',
@@ -25,7 +34,7 @@ export default function ProjectsSection({ onOpenQuoteWithProject, onOpenLightbox
       image: '/w1.jpeg',
     },
     {
-      id: 'p3',
+      id: 'p4',
       category: 'RESIDENTIAL',
       title: 'Residential Villa Rooftop Installation',
       type: 'Residential Solar',
@@ -34,7 +43,7 @@ export default function ProjectsSection({ onOpenQuoteWithProject, onOpenLightbox
       image: '/w2.jpeg',
     },
     {
-      id: 'p4',
+      id: 'p5',
       category: 'AGRICULTURAL',
       title: 'Ground-Mounted Solar Infrastructure',
       type: 'Agricultural & Utility',
@@ -43,7 +52,7 @@ export default function ProjectsSection({ onOpenQuoteWithProject, onOpenLightbox
       image: '/w3.jpeg',
     },
     {
-      id: 'p5',
+      id: 'p6',
       category: 'RESIDENTIAL',
       title: 'PM Surya Ghar Residential Rooftop',
       type: 'Govt Subsidy Scheme',
@@ -52,7 +61,7 @@ export default function ProjectsSection({ onOpenQuoteWithProject, onOpenLightbox
       image: '/w4.jpeg',
     },
     {
-      id: 'p6',
+      id: 'p7',
       category: 'INDUSTRIAL',
       title: 'Industrial Warehouse Solar Plant',
       type: 'Industrial Solar',
@@ -61,7 +70,7 @@ export default function ProjectsSection({ onOpenQuoteWithProject, onOpenLightbox
       image: '/w5.jpeg',
     },
     {
-      id: 'p7',
+      id: 'p8',
       category: 'COMMERCIAL',
       title: 'Institutional & Commercial Rooftop',
       type: 'Commercial Solar',

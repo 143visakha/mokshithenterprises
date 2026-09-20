@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Play, Pause, Volume2, VolumeX, Maximize, X, ShieldCheck, Sun, Zap, CheckCircle2 } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, X, ShieldCheck, Sun, Zap, CheckCircle2 } from 'lucide-react';
 
 export default function VideoShowcaseSection() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -9,7 +9,7 @@ export default function VideoShowcaseSection() {
 
   // Mokshith Enterprises solar showcase video
   const videoSrc = '/vid.mp4';
-  const fallbackVideoSrc = '/vid.mp4';
+  const posterSrc = '/sec.jpg';
 
   const handlePlayInline = () => {
     setIsPlaying(true);
@@ -50,7 +50,7 @@ export default function VideoShowcaseSection() {
         }}
       />
 
-      <div className="container" style={{ position: 'relative', zIndex: 5 }}>
+      <div className="container" style={{ position: 'relative', zIndex: 5, maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 48px auto' }}>
           <div
@@ -140,7 +140,7 @@ export default function VideoShowcaseSection() {
                   width: '100%',
                   height: '100%',
                   position: 'relative',
-                  backgroundImage: 'url(/sec.jpg)',
+                  backgroundImage: `url(${posterSrc})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center center',
                   cursor: 'pointer',
@@ -224,7 +224,7 @@ export default function VideoShowcaseSection() {
                     e.currentTarget.style.transform = 'scale(1)';
                   }}
                 >
-                  <Maximize size={18} />
+                  <Maximize2 size={18} />
                 </button>
 
                 {/* Center Animated Play Button */}
@@ -357,18 +357,12 @@ export default function VideoShowcaseSection() {
                   controls
                   autoPlay
                   playsInline
-                  poster="/sec.jpg"
+                  poster={posterSrc}
                   style={{
                     width: '100%',
                     height: '100%',
                     objectFit: 'contain',
                     display: 'block',
-                  }}
-                  onError={(e) => {
-                    // Fallback to secondary video source if local MP4 file is missing
-                    if (e.target.src !== fallbackVideoSrc) {
-                      e.target.src = fallbackVideoSrc;
-                    }
                   }}
                 />
                 
@@ -470,16 +464,11 @@ export default function VideoShowcaseSection() {
               controls
               autoPlay
               playsInline
-              poster="/sec.jpg"
+              poster={posterSrc}
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'contain',
-              }}
-              onError={(e) => {
-                if (e.target.src !== fallbackVideoSrc) {
-                  e.target.src = fallbackVideoSrc;
-                }
               }}
             />
           </div>

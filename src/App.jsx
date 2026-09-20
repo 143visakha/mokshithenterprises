@@ -11,6 +11,7 @@ import WhyMokshith from './components/WhyMokshith';
 import ProjectsSection from './components/ProjectsSection';
 import InlineCalculatorSection from './components/InlineCalculatorSection';
 import TestimonialsSection from './components/TestimonialsSection';
+import Solar60KwSection from './components/Solar60KwSection';
 import VideoShowcaseSection from './components/VideoShowcaseSection';
 import MeetExpertsSection from './components/MeetExpertsSection';
 import ContactSection from './components/ContactSection';
@@ -117,7 +118,13 @@ export default function App() {
         {/* 12. Testimonials: Trusted by Thousands of Customers */}
         <TestimonialsSection />
 
-        {/* 13. See Solar in Action (Video Showcase) */}
+        {/* 13. Landmark 60 kW Solar Installation Video Section */}
+        <Solar60KwSection
+          onOpenQuoteWithProject={handleOpenQuoteWithProject}
+          onOpenCalculator={() => setCalculatorOpen(true)}
+        />
+
+        {/* 14. See Solar in Action (General Video Showcase) */}
         <VideoShowcaseSection />
 
         {/* 14. Meet Our Experts (Technical Team & Avatars) */}
