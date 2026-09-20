@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.mokshithenterprises.co.in/sitemap.xml
