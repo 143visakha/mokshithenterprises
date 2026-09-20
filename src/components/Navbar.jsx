@@ -21,8 +21,10 @@ export default function Navbar({ onOpenCalculator, onNavigateContact }) {
 
   const navLinks = [
     { name: 'About', href: '#about' },
+    { name: 'Projects', href: '#projects' },
+    { name: '60 kW Plant', href: '#solar-60kw' },
     { name: 'Process', href: '#process' },
-    { name: 'Solutions', href: '#solutions' },
+    { name: 'Solutions', href: '#pm-surya-ghar' },
     { name: 'Team', href: '#team' },
     { name: 'Contact', href: '#contact' },
   ];
