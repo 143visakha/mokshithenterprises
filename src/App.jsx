@@ -116,7 +116,9 @@ export default function App() {
         />
 
         {/* 12. Testimonials: Trusted by Thousands of Customers */}
-        <TestimonialsSection />
+        <TestimonialsSection
+          onOpenLightbox={handleOpenLightbox}
+        />
 
         {/* 13. Landmark 60 kW Solar Installation Video Section */}
         <Solar60KwSection

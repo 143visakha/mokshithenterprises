@@ -6,7 +6,7 @@ export default function MeetExpertsSection({ onOpenLightbox }) {
 
   const leadership = [
     {
-      name: 'Danana Kurma Rao',
+      name: 'DANNANA KURMA RAO',
       role: 'Managing Director',
       avatar: '/md.jpeg',
     },

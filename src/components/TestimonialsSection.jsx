@@ -1,33 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { Quote, Star, User, CheckCircle2 } from 'lucide-react';
+import { Star, User, CheckCircle2, Camera } from 'lucide-react';
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ onOpenLightbox }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const testimonials = [
     {
       id: 1,
-      quote: "Mokshith Enterprises executed our 15kW residential hybrid solar system seamlessly. Electricity bills dropped by over 85%, and the installation looks extremely modern and clean on our roof.",
-      author: "Rajesh Varma",
-      location: "Jubilee Hills, Hyderabad",
-      type: "Homeowner (15kW Hybrid)",
+      quote: "Mokshith Enterprises executed complete dual-chemical earthing and lightning surge protection alongside our residential rooftop solar array in Vizianagaram. Solid workmanship, DISCOM compliant, and zero voltage fluctuations.",
+      author: "Krishna Prasad",
+      location: "BC Colony, Vizianagaram",
+      type: "Homeowner (5kW Rooftop)",
       rating: 5,
+      avatar: '/krishna_prasad.png',
+      photo: '/earthing_pit_vizianagaram.jpg',
+      photoCaption: 'Geotagged Chemical Earthing Pit Chamber Installation at Vizianagaram Site (Mokshith Enterprises)',
+      photoTag: 'Site Photo: Chemical Earthing',
     },
     {
       id: 2,
-      quote: "Our factory required a robust 200kW rooftop array with net metering. Mokshith Enterprises handled engineering, DISCOM approvals, and setup without halting our daily production lines.",
-      author: "K. Srinivasa Rao",
+      quote: "The structural engineering and anodized aluminum 60×300mm mini-rail mounting quality is top tier. Zero roof puncture leaks, heavy coastal wind resistance, and seamless solar panel clamping for our factory rooftop.",
+      author: "Sabeer Basha",
       location: "Industrial Estate, Visakhapatnam",
-      type: "Factory Owner (200kW On-Grid)",
+      type: "Industrial Owner (120kW On-Grid)",
       rating: 5,
+      avatar: '/sabeer_basha.png',
+      photo: '/mini_rail_hardware.jpg',
+      photoCaption: 'Heavy-Duty 60×300mm Aluminum Mini-Rail & Clamp Mounting Hardware (Mokshith Enterprises)',
+      photoTag: 'Hardware: Mini-Rail Mounts',
     },
     {
       id: 3,
-      quote: "Extremely professional team. Their site analysis and ROI projections were accurate to a fault. The real-time mobile app tracking gives our facilities management complete peace of mind.",
-      author: "Dr. Sunita Reddy",
-      location: "Commercial Complex, Vijayawada",
+      quote: "Extremely professional team. Their site analysis and DISCOM net-metering approvals were handled end-to-end without any hassle. The real-time generation monitoring gives our healthcare facility complete peace of mind.",
+      author: "Salman Basha",
+      location: "Ring Road, Vizianagaram",
       type: "Commercial Partner (50kW System)",
       rating: 5,
+      avatar: '/salman_basha.png',
     },
   ];
 
@@ -35,7 +44,7 @@ export default function TestimonialsSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 3000);
+    }, 3800);
     return () => clearInterval(timer);
   }, [testimonials.length]);
 
@@ -83,7 +92,7 @@ export default function TestimonialsSection() {
               style={{
                 backgroundColor: '#FFFFFF',
                 borderRadius: '16px',
-                padding: '32px 28px',
+                padding: '28px 24px',
                 border: '1px solid #E2E8F0',
                 boxShadow: '0 4px 14px rgba(4, 39, 25, 0.03)',
                 display: 'flex',
@@ -103,7 +112,7 @@ export default function TestimonialsSection() {
               }}
             >
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                     {[...Array(item.rating)].map((_, i) => (
                       <Star key={i} size={16} fill="#59C749" color="#59C749" />
@@ -111,21 +120,80 @@ export default function TestimonialsSection() {
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#59C749', fontWeight: '600' }}>
                     <CheckCircle2 size={14} />
-                    <span>Verified Owner</span>
+                    <span>Verified Installation</span>
                   </div>
                 </div>
 
                 <p
                   className="body-text"
                   style={{
-                    fontSize: '0.94rem',
+                    fontSize: '0.92rem',
                     color: '#334155',
-                    lineHeight: '1.65',
-                    marginBottom: '28px',
+                    lineHeight: '1.62',
+                    marginBottom: item.photo ? '18px' : '24px',
                   }}
                 >
                   "{item.quote}"
                 </p>
+
+                {/* Customer / Site Photo if present */}
+                {item.photo && (
+                  <div
+                    onClick={() => onOpenLightbox && onOpenLightbox(item.photo, item.photoCaption || item.photoTag || 'Customer Site Photo')}
+                    style={{
+                      marginBottom: '20px',
+                      borderRadius: '12px',
+                      overflow: 'hidden',
+                      border: '1px solid #E2E8F0',
+                      backgroundColor: '#0F172A',
+                      position: 'relative',
+                      cursor: 'pointer',
+                      height: '170px',
+                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.02)';
+                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(89, 199, 73, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                    title="Tap for full view"
+                  >
+                    <img
+                      src={item.photo}
+                      alt={item.photoCaption || 'Customer Site Installation Photo'}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: '8px',
+                        left: '8px',
+                        backgroundColor: 'rgba(5, 34, 20, 0.85)',
+                        backdropFilter: 'blur(6px)',
+                        color: '#59C749',
+                        fontSize: '0.72rem',
+                        fontWeight: '700',
+                        padding: '4px 10px',
+                        borderRadius: '6px',
+                        border: '1px solid rgba(89, 199, 73, 0.3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      <Camera size={12} />
+                      <span>{item.photoTag || 'Site Photo'}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div
@@ -133,25 +201,45 @@ export default function TestimonialsSection() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  paddingTop: '20px',
+                  paddingTop: '16px',
                   borderTop: '1px solid #F1F5F9',
                 }}
               >
-                <div
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(89, 199, 73, 0.15)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#59C749',
-                    fontWeight: '700',
-                  }}
-                >
-                  <User size={20} />
-                </div>
+                {item.avatar ? (
+                  <div
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      border: '2px solid #59C749',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img
+                      src={item.avatar}
+                      alt={item.author}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(89, 199, 73, 0.15)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#59C749',
+                      fontWeight: '700',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <User size={20} />
+                  </div>
+                )}
                 <div>
                   <div style={{ fontSize: '0.92rem', fontWeight: '700', color: '#0F172A' }}>{item.author}</div>
                   <div style={{ fontSize: '0.78rem', color: '#64748B' }}>{item.location} • {item.type}</div>
@@ -184,7 +272,7 @@ export default function TestimonialsSection() {
                   style={{
                     backgroundColor: '#FFFFFF',
                     borderRadius: '16px',
-                    padding: '28px 24px',
+                    padding: '24px 20px',
                     border: '1px solid #E2E8F0',
                     boxShadow: '0 4px 14px rgba(4, 39, 25, 0.05)',
                     display: 'flex',
@@ -194,7 +282,7 @@ export default function TestimonialsSection() {
                   }}
                 >
                   <div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                         {[...Array(item.rating)].map((_, i) => (
                           <Star key={i} size={15} fill="#59C749" color="#59C749" />
@@ -202,7 +290,7 @@ export default function TestimonialsSection() {
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.72rem', color: '#59C749', fontWeight: '600' }}>
                         <CheckCircle2 size={13} />
-                        <span>Verified Owner</span>
+                        <span>Verified Installation</span>
                       </div>
                     </div>
 
@@ -212,11 +300,58 @@ export default function TestimonialsSection() {
                         fontSize: '0.9rem',
                         color: '#334155',
                         lineHeight: '1.6',
-                        marginBottom: '20px',
+                        marginBottom: item.photo ? '14px' : '20px',
                       }}
                     >
                       "{item.quote}"
                     </p>
+
+                    {item.photo && (
+                      <div
+                        onClick={() => onOpenLightbox && onOpenLightbox(item.photo, item.photoCaption || item.photoTag || 'Customer Site Photo')}
+                        style={{
+                          marginBottom: '16px',
+                          borderRadius: '10px',
+                          overflow: 'hidden',
+                          border: '1px solid #E2E8F0',
+                          backgroundColor: '#0F172A',
+                          position: 'relative',
+                          cursor: 'pointer',
+                          height: '150px',
+                        }}
+                        title="Tap for full view"
+                      >
+                        <img
+                          src={item.photo}
+                          alt={item.photoCaption || 'Customer Site Installation Photo'}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block',
+                          }}
+                        />
+                        <div
+                          style={{
+                            position: 'absolute',
+                            bottom: '6px',
+                            left: '6px',
+                            backgroundColor: 'rgba(5, 34, 20, 0.85)',
+                            color: '#59C749',
+                            fontSize: '0.68rem',
+                            fontWeight: '700',
+                            padding: '3px 8px',
+                            borderRadius: '5px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                          }}
+                        >
+                          <Camera size={11} />
+                          <span>{item.photoTag || 'Site Photo'}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div
@@ -224,25 +359,45 @@ export default function TestimonialsSection() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '12px',
-                      paddingTop: '16px',
+                      paddingTop: '14px',
                       borderTop: '1px solid #F1F5F9',
                     }}
                   >
-                    <div
-                      style={{
-                        width: '38px',
-                        height: '38px',
-                        borderRadius: '50%',
-                        backgroundColor: 'rgba(89, 199, 73, 0.15)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#59C749',
-                        fontWeight: '700',
-                      }}
-                    >
-                      <User size={18} />
-                    </div>
+                    {item.avatar ? (
+                      <div
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          overflow: 'hidden',
+                          border: '2px solid #59C749',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <img
+                          src={item.avatar}
+                          alt={item.author}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          backgroundColor: 'rgba(89, 199, 73, 0.15)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#59C749',
+                          fontWeight: '700',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <User size={18} />
+                      </div>
+                    )}
                     <div>
                       <div style={{ fontSize: '0.88rem', fontWeight: '700', color: '#0F172A' }}>{item.author}</div>
                       <div style={{ fontSize: '0.75rem', color: '#64748B' }}>{item.location} • {item.type}</div>
